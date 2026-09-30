@@ -12,7 +12,9 @@ import com.liskovsoft.youtubeapi.videoinfo.V2.VideoInfoService
 
 internal object FormatInfoWrapper {
     private var mCachedFormatInfo: MediaItemFormatInfo? = null
-    private var mTryInnertubeFirst: Boolean = true
+    // SmarterTube: legacy (VISIONOS-first) before Innertube. Innertube WEB/SABR gets an ads backoff (slow start)
+    // and empty exp=xpe captions (player NPE). See yuliskov/SmartTube#6281, CodeSculptor/SmarterTube#52 #53.
+    private var mTryInnertubeFirst: Boolean = false
     private val mInnertubeResult = object { var isUnplayable: Boolean = false; var client: AppClient? = null }
     private val mInnertubeProvider: (String, String?) -> MediaItemFormatInfo? =
         { videoId, clickTrackingParams ->
